@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
  
 Base = declarative_base()
  
-class Catigories(Base):
+class Categories(Base):
     __tablename__ = 'category'
    
     id = Column(Integer, primary_key=True)
@@ -21,7 +21,7 @@ class Items(Base):
     id = Column(Integer, primary_key = True)
     description = Column(String(250))
     category_id = Column(Integer,ForeignKey('category.id'))
-    category = relationship(Catigories)
+    category = relationship(Categories)
 
 #We added this serialize function to be able to send JSON objects in a serializable format
     @property
