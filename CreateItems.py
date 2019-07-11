@@ -4,7 +4,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
  
-from database_setup import Categories, Base, Items
+from database_setup import Catigories, Base, Items
  
 engine = create_engine('sqlite:///catalogapp.db')
 # Bind the engine to the metadata of the Base class so that the
@@ -20,6 +20,7 @@ DBSession = sessionmaker(bind=engine)
 # revert all of them back to the last commit by calling
 # session.rollback()
 session = DBSession()
+
 
 
 #Items for Soccer
@@ -39,20 +40,19 @@ Item2 = Items(name = "Soccer shoe", description = "The Standard Soccer shoe", ca
 session.add(Item2)
 session.commit()
 
+#Items for Basektball
 
-#Items for Basketball
+category2 = Categories(name = "Basektball")
 
-category2 = Categories(name = "Basketball")
-
-session.add(category1)
+session.add(category2)
 session.commit()
 
-Item1 = Items(name = "Basketball ball", description = "The Standard Basketball ball", category = category2)
+Item1 = Items(name = "Basektball ball", description = "The Standard Basektball ball", category = category2)
 
 session.add(Item1)
 session.commit()
 
-Item2 = Items(name = "Basketball shoe", description = "The Standard Basketball shoe", category = category2)
+Item2 = Items(name = "Basektball shoe", description = "The Standard Basektball shoe", category = category2)
 
 session.add(Item2)
 session.commit()
@@ -151,6 +151,7 @@ category8 = Categories(name = "Skating")
 
 session.add(category8)
 session.commit()
+
 
 Item1 = Items(name = "Roller Skating", description = "The Standard Roller",category = category8)
 
