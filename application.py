@@ -15,44 +15,50 @@ session = DBSession()
 
 #All Categories
 @app.route('/')
-@app.route('/categories')
+@app.route('/categories/')
 def categoriesMenu():
+    category = session.query(Categories).all()
     
-    return "This page show all categories"
+    
+    return render_template('categories.html',category=category)
 
 #Show category items
 @app.route('/category/<int:category_id>/')
 @app.route('/category/<int:category_id>/items')
 def categoryItems(category_id):
 
-    return "This page show category: "+str(category_id)+" items"
+
+    
+    return render_template('items.html')
+
 
 
 #Show item description
 @app.route('/category/<int:category_id>/items/<int:item_id>/')
 def showItemDescription(category_id, item_id):
 
-    return "This page show category: "+str(category_id)+" and item: "+str(item_id)
+    
+    return render_template('itemDescription.html')
 
 
 # Add item
 @app.route('/category/<int:category_id>/items/new')
 def newCategoryItem(category_id):
 
-    return "This page create new category item"
+    return render_template('newItem.html')
 
 # Edit item
 @app.route('/category/<int:category_id>/items/<int:item_id>/edit')
 def editCategoryItem(category_id, item_id):
 
-    return "This page edit category: "+str(category_id)+ " item: "+str(item_id)
+    return render_template('editItem.html')
 
 
 # Delete item
 @app.route('/category/<int:category_id>/items/<int:item_id>/delete')
 def deleteCategoryItem(category_id, item_id):
 
-    return "This page delete category: "+str(category_id)+" item: "+str(item_id)
+    return render_template('deleteItem.html')
 
 
 if __name__ == '__main__':
