@@ -32,7 +32,6 @@ class Items(Base):
            'description'  : self.description,
            'id'         : self.id,
            }
- 
 
 engine = create_engine('sqlite:///catalogapp.db')
  
