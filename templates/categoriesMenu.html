@@ -1,0 +1,49 @@
+ {% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+
+	<div class="row divider red">
+		<div class="col-md-12"></div>
+	</div>
+<div class="row banner main">
+		<div class="col-md-1"></div>
+		<div class="col-md-11 padding-none">
+			<h1> Car Categories </h1>
+		</div>
+	</div>
+<br />
+<div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+
+<br />
+ <div>
+   <a href="{{url_for('newCategory')}}">
+   <button class="btn btn-default" id="new-menu-property">
+	<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Add New Car category
+	</button>
+	</a>
+</div>
+
+<div>
+		{% for cat in category %}
+    <a href = "{{url_for('categoryProperties',category_id=cat.id)}}">
+		<h3>{{cat.id}}. {{cat.name}}</h3>
+        </a>
+		{% endfor %}
+	</div>
+	
+	
+
+{% endblock %}
