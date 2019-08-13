@@ -6,13 +6,8 @@
 		<div class="col-md-12"></div>
 	</div>
 	<div class="row banner menu">
-		<div class="col-md-11 col-md-offset-1 padding-none">
-			<h1>{{ categ.name }}
-			<figure class="creator">
-				<img src="{{ url_for('static', filename='blank_user.gif') }}">
-				<figcaption>Menu creator's image goes here</figcaption>
-			</figure>
-			</h1>
+		<div class="address">
+			<h1>{{ categ.name }} </h1>
 
 		</div>
 	</div>
@@ -30,10 +25,9 @@
     {% endwith %}
 
 </div>
-
-<div class="row padding-top padding-bottom">
-		<div class="col-md-1"></div>
-		<div class="col-md-11 padding-none">
+<br/>
+<div class="row">
+		<div class="col-sm-5 ">
 			<a href="{{url_for('newCategoryItem',category_id=categ.id)}}">
 				<button class="btn btn-default" id="new-menu-item">
 					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Add item
@@ -53,20 +47,33 @@
 				</button>
 			</a>
 		</div>
-		<div class="col-md-7"></div>
+		
 	</div>
+<br/><br/>
 
-<div class="col-md-3">
- <h2>{{categ.name}} items</h2>
-     {% for item in items %}
+<div class="container">
+<div class="row">
+ <div class="col-sm-5">
+    <h2>{{categ.name}} items</h2>
+     <br/>
+      {% for item in items %}
       <div class="menu-item">
+         
        <h3>{{item.name}}</h3>
+          
        <p>{{item.description}}</p>
+          
        <p class="menu-price">{{item.price}} $</p>
           <a href="{{url_for('editCategoryItem', category_id = categ.id, item_id=item.id ) }}">Edit</a>
           <a href="{{url_for('deleteCategoryItem', category_id = categ.id, item_id=item.id)}}">Delete</a>
-</div>
-{% endfor %}
+           </div>
+     <br/>
+     {% endfor %}
+     </div>
+    </div>
+   
+    </div>
+
 
 
 
