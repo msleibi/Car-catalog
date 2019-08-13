@@ -1,9 +1,11 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
+import datetime
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+ 
  
 Base = declarative_base()
  
@@ -13,18 +15,16 @@ class Categories(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
  
-class Properties(Base):
-    __tablename__ = 'properties'
+class Items(Base):
+    __tablename__ = 'items'
 
 
-    model =Column(String(80), nullable = False)
+    name =Column(String(80), nullable = False)
     id = Column(Integer, primary_key = True)
     description = Column(String(250))
-    speed = Column(String(50))
-    carEngine = Column(String(50),nullable = False)
+    price = Column(Integer,nullable = False)
     manufacture = Column(String(50),nullable = False)
-    carClass = Column(String(50),nullable = False)
-    photo = Column(String(250),nullable = True)
+    createdate = Column(DateTime, default=datetime.datetime.utcnow)
     categories_id = Column(Integer,ForeignKey('categories.id'))
     category = relationship(Categories)
 
@@ -33,16 +33,14 @@ class Properties(Base):
     def serialize(self):
        #Returns object data in easily serializeable format
        return {
-           'model'        : self.name,
+           'name'         : self.name,
            'description'  : self.description,
            'id'           : self.id,
-           'speed'        : self.speed,
-           'carEngine'    : self.carEngine,
+           'price'        : self.price,
            'manufacture'  : self.manufacture,
-           'carClass'     : self.carClass,
            }
 
-engine = create_engine('sqlite:///carcatalogapp.db')
+engine = create_engine('sqlite:///catalogapp.db')
  
 
 Base.metadata.create_all(engine)
