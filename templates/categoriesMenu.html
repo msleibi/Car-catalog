@@ -9,7 +9,7 @@
 <div class="row banner main">
 		<div class="col-md-1"></div>
 		<div class="col-md-11 padding-none">
-			<h1> Car Categories </h1>
+			<h1> Catalog App </h1>
 		</div>
 	</div>
 <br />
@@ -30,20 +30,35 @@
 <br />
  <div>
    <a href="{{url_for('newCategory')}}">
-   <button class="btn btn-default" id="new-menu-property">
-	<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Add New Car category
+   <button class="btn btn-default" id="new-menu-item">
+	<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Add New category
 	</button>
 	</a>
 </div>
 
-<div>
-		{% for cat in category %}
-    <a href = "{{url_for('categoryProperties',category_id=cat.id)}}">
-		<h3>{{cat.id}}. {{cat.name}}</h3>
+<br/>
+
+<div class="container">
+     <div class="row">
+         <div class="col">
+             <h2>Categories </h2> 
+             <br/>
+        
+		{% for categ in category %}
+    <a href = "{{url_for('categoryItems',category_id=categ.id)}}">
+		<h3> {{categ.name}}</h3>
         </a>
 		{% endfor %}
 	</div>
+         <div class="col">
+            <h2>Latest items </h2>
+             <br/>
+             {% for last in lastItems %}
+            <h3> {{last.name}}</h3>
+             
+             {% endfor %}
+         </div>
 	
-	
-
+    </div>
+</div>
 {% endblock %}

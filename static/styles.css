@@ -154,14 +154,20 @@ h3 {
 
 
 
-.menu-property {
-	background: #F0F0F0;
-	padding: 20px;
-	margin: 20px;
+.menu-item {
+	background: #d2c8e5;
+    padding: 10px;
+	margin: 10px;
 	margin-left: -20px;
 }
+
+.menu-item h3 {
+    color: black;
+    font-weight:800;
+}
+    
 .menu-price {
-	font-weight: 700;
+	font-weight: 800;
 }
 
 
