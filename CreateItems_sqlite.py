@@ -4,7 +4,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
  
-from database_setup import Categories, Base, Items
+from database_setup import Categories, Base, Items, User
  
 engine = create_engine('sqlite:///catalogapp.db')
 
@@ -24,6 +24,11 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# Create test user
+User1 = User(name="Max Mustermann", email="max@mustermann.com",
+             picture='https://pbs.twimg.com/profile_images/578089181022265345/hF0DcMb9.jpeg')
+session.add(User1)
+session.commit()
 
 #Items for Carpenter
 
