@@ -1,11 +1,9 @@
 {% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
-<div class="row divider green">
-		<div class="col-md-12"></div>
-	</div>
+
 	<div class="row banner menu">
-		<div class="col-md-11 col-md-offset-1 padding-none">
+		<div >
 			<h1>Login with OAuth 2.0
 			</h1>
 
@@ -14,7 +12,10 @@
 
 
 			
-		<div class="menu-item">
+		<div class="fbLogin">
+            <div class="row">
+            <div class="col-md-4">
+            
 
 
 <!--FACEBOOK SIGN IN -->
@@ -75,9 +76,12 @@
   }
 </script>
 
-Login to Facebook:
-<button>
-
+<h2>Login to Facebook: </h2>
+</div>
+            
+            <div class="col-md-3">
+                
+<button class="btn">
 
           <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
 <a href='javascript:sendTokenToServer()'>Sign in </a>
@@ -85,9 +89,9 @@ Login to Facebook:
 </fb:login-button>
 
 
-        </button>
+            </button>
 <!--END FACEBOOK SIGN IN -->
 
-</div>
+</div></div></div>
 
 {% endblock %}

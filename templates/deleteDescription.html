@@ -1,15 +1,15 @@
 {% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
+
 <div class="row banner menu">
 		<div class="col-md-12">
-			<h1> {{deleteCategory.name}}</h1>
+			<h1> Delete {{itemDescToDelete.name}}</h1>
 		</div>
 	</div>
 <br/>
 
-<h2> Are you sure you want to delete {{deleteCategory.name}}? </h2>
-
+<h2> Are you sure you want to delete {{itemDescToDelete.name}}? </h2>
 <br/>
 
 <div class="row">
@@ -18,17 +18,16 @@
 
 	<button type="submit" class="btn delete" id="submit" type="submit">
 	Delete</button>
-    
-</form>
-</div>
+    </form>
+        </div>
     
     <div class="col-md-1">
-<a href = "{{url_for('categoryItems',category_id=deleteCategory.id)}}">
+	<a href = "{{url_for('showItemDescription',category_id= itemDescToDeleteCat.id,item_id=itemDescToDelete.id)}}">
 		<button class="btn">
 		 Cancel</button>
 	</a>
- </div>
-		
+</div>
+
 </div>
 <br/>
 {% endblock %}

@@ -1,15 +1,16 @@
 <div class="row top-menu">
 	<div class="col-md-6">
 		<a href="{{url_for('categoriesMenu')}}" >
-			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>Show All Categories
+			Show All Categories
 		</a>
-	</div>
-	<div class="col-md-6 text-right">
+    </div>
+	<div class="col-md-6 text-right username">
       {%if 'username' not in session %}
-			<a href="{{url_for('showLogin')}}">Login </a>
+		<p> {{session['username']}} <a href="{{url_for('showLogin')}}">Login </a> </p>
       {% else %}
-			<a href="{{url_for('disconnect')}}">Logout </a>
+		<p><img src={{session['picture']}} width="40" height="40" />   {{session['username']}} 	<a href="{{url_for('disconnect')}}">Logout </a> </p>
       {% endif %}
 						
-	</div>
 </div>
+</div>
+
