@@ -25,45 +25,45 @@ session = DBSession()
 
 
 # Create test user
-User1 = User(name="Max Mustermann", email="max@mustermann.com",
+User1 = User(name="Max Mustermann", email="m_mustermann@gmail.com",
              picture='https://pbs.twimg.com/profile_images/578089181022265345/hF0DcMb9.jpeg')
 session.add(User1)
 session.commit()
 
 #Items for Carpenter
 
-category1 = Categories(name = "Carpentry")
+category1 = Categories(name = "Carpentry",user_id=1)
 
 session.add(category1)
 session.commit()
 
-item1 = Items(name ="Claw Hammer",description = " is a tool primarily used for driving nails into, or pulling nails from, some other object",price = "3.99",manufacture = "Microsun Innovation", category = category1)
+item1 = Items(user_id=1, name ="Claw Hammer",description = " is a tool primarily used for driving nails into, or pulling nails from, some other object",price = "3.99",manufacture = "Microsun Innovation", category = category1)
 
 session.add(item1)
 session.commit()
 
-item2 = Items(name ="Tape Measure",description = " it is just a Tape Measure",price = "4.99",manufacture = "Danking Enterprise Ltd ", category = category1)
+item2 = Items(user_id=1, name ="Tape Measure",description = " it is just a Tape Measure",price = "4.99",manufacture = "Danking Enterprise Ltd ", category = category1)
 
 session.add(item2)
 session.commit()
 
 
-category2 = Categories(name = "Mechanic")
+category2 = Categories(user_id=1, name = "Mechanic")
 
 session.add(category2)
 session.commit()
 
-item1 = Items(name ="Impact wrench",description = " An impact wrench is a socket wrench power tool designed to deliver high torque output with minimal exertion by the user, by storing energy in a rotating mass, then delivering it suddenly to the output",price = "196",manufacture = "Bosch", category = category2)
+item1 = Items(user_id=1, name ="Impact wrench",description = " An impact wrench is a socket wrench power tool designed to deliver high torque output with minimal exertion by the user, by storing energy in a rotating mass, then delivering it suddenly to the output",price = "196",manufacture = "Bosch", category = category2)
 
 session.add(item1)
 session.commit()
 
-category3 = Categories(name = "Painter")
+category3 = Categories(user_id=1, name = "Painter")
 
 session.add(category3)
 session.commit()
 
-item1 = Items(name ="Brush",description = " used to apply paint or sometimes ink. A paintbrush is usually made by clamping the bristles to a handle with a ferrule",price = "8.99",manufacture = "Glart", category = category3)
+item1 = Items(user_id=1, name ="Brush",description = " used to apply paint or sometimes ink. A paintbrush is usually made by clamping the bristles to a handle with a ferrule",price = "8.99",manufacture = "Glart", category = category3)
 
 session.add(item1)
 session.commit()

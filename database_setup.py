@@ -24,33 +24,50 @@ class Categories(Base):
     name = Column(String(250), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    items = relationship("Items")
+    
+    
+#We added this serialize function to be able to send JSON objects in a serializable format
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'id': self.id,
+            'name': self.name,
+            'items': [item.serialize for item in self.items]
+        }
+    
+
+
  
 class Items(Base):
     __tablename__ = 'items'
+    
 
-
-    name =Column(String(80), nullable = False)
     id = Column(Integer, primary_key = True)
-    description = Column(String(250))
+    name =Column(String(80), nullable = False)
+    description = Column(String(250), nullable = False)
     price = Column(Integer,nullable = False)
     manufacture = Column(String(50),nullable = False)
     createdate = Column(DateTime, default=datetime.datetime.utcnow)
     categories_id = Column(Integer,ForeignKey('categories.id'))
-    category = relationship(Categories)
+    category = relationship(Categories, back_populates='items')
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
-#We added this serialize function to be able to send JSON objects in a serializable format
     @property
     def serialize(self):
        #Returns object data in easily serializeable format
        return {
+           'id'           : self.id,
            'name'         : self.name,
            'description'  : self.description,
-           'id'           : self.id,
            'price'        : self.price,
            'manufacture'  : self.manufacture,
+           'category_id' : self.categories_id 
            }
+
 
 engine = create_engine('sqlite:///catalogapp.db')
  
