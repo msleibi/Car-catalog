@@ -26,7 +26,9 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 # CREATE ANTI-FORGERY STATE TOKEN
-    @app.route('/login')
+
+
+@app.route('/login')
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase +
                                   string.digits)
@@ -37,7 +39,8 @@ def showLogin():
 
 # CREATE FACEBOOK CONNECTION
 
-    @app.route('/fbconnect', methods=['POST'])
+
+@app.route('/fbconnect', methods=['POST'])
 def fbconnect():
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
@@ -97,7 +100,9 @@ def fbconnect():
     return "you have logged in"
 
 # CREATE FACEBOOK DISCONNECTION
-    @app.route('/fbdisconnect')
+
+
+@app.route('/fbdisconnect')
 def fbdisconnect():
     facebook_id = login_session['facebook_id']
     # THE ACCESS TOKEN MUST BE INCLUDED TO SUCCESSFULLY LOGOUT
@@ -109,7 +114,9 @@ def fbdisconnect():
     return "you have been logged out"
 
 # PROVIDER DISCONNETION
-    @app.route('/disconnect')
+
+
+@app.route('/disconnect')
 def disconnect():
     if 'provider' in login_session:
         if login_session['provider'] == 'facebook':
@@ -154,27 +161,27 @@ def getUserID(email):
 
 
 # SHOW ALL CATEGORIES
-    @app.route('/')
-    @app.route('/categories/')
+@app.route('/')
+@app.route('/categories/')
 def categoriesMenu():
     categories = session.query(Categories).all()
-    lastItems = session.query(Categories, Items).filter(Items
-                .categories_id == Categories.id).order_by(desc
-                                  ("createdate")).all()
+    lastItems = session.query(Categories, Items).filter(
+        Items.categories_id == Categories.id).order_by(desc(
+            "createdate")).all()
 
     if 'username' not in login_session:
-        return render_template(
-    'GeneralCategories.html',
-    categories=categories,
-     lastItems=lastItems)
+        return render_template('GeneralCategories.html',
+                               categories=categories,
+                               lastItems=lastItems)
     else:
-        return render_template(
-    'categoriesMenu.html',
-    categories=categories,
-     lastItems=lastItems)
+        return render_template('categoriesMenu.html',
+                               categories=categories,
+                               lastItems=lastItems)
 
 # CREATE NEW CATEGORY
-    @app.route('/categories/new', methods=['GET', 'POST'])
+
+
+@app.route('/categories/new', methods=['GET', 'POST'])
 def newCategory():
 
     # CHECK IF THE USER LOGGED IN
@@ -196,7 +203,7 @@ def newCategory():
 
 
 # EDIT EXISTING CATEGORY
-  @app.route('/categories/<int:category_id>/edit', methods=['GET',
+@app.route('/categories/<int:category_id>/edit', methods=['GET',
                                                           'POST'])
 def editCategory(category_id):
 
@@ -225,7 +232,9 @@ def editCategory(category_id):
                                category_id=editCat.id)
 
 # DELETE EXISTING CATEGORY
-  @app.route('/categories/<int:category_id>/delete', methods=['GET',
+
+
+@app.route('/categories/<int:category_id>/delete', methods=['GET',
                                                             'POST'])
 def deleteCategory(category_id):
     deleteCat = session.query(Categories).filter_by(id=category_id)\
@@ -259,24 +268,28 @@ def deleteCategory(category_id):
 
 
 # SHOW CATEGORY ITEMS
-  @app.route('/categories/<int:category_id>/')
-  @app.route('/categories/<int:category_id>/items')
+@app.route('/categories/<int:category_id>/')
+@app.route('/categories/<int:category_id>/items')
 def categoryItems(category_id):
     CatOne = session.query(Categories).filter_by(id=category_id).one()
     items = session.query(Items).filter_by(categories_id=category_id)
     countItems = list(items)
     creatorID = getUserInfo(CatOne.user_id)
 
-    # # CHECK IF THE USER LOGGED IN  & CATEGORIESITEMS OWNER
-    if 'username' not in login_session or creatorID.id != login_session['user_id']:
+    # CHECK IF THE USER LOGGED IN  & CATEGORIESITEMS OWNER
+    if 'username' not in login_session or creatorID.id != login_session[
+                                                          'user_id']:
         return render_template('Generalitems.html', categ=CatOne,
                                items=items, countItems=len(
                                    countItems))
     else:
-        return render_template('itemsMenu.html', categ=CatOne, items=items, countItems=len(countItems))
+        return render_template('itemsMenu.html', categ=CatOne,
+                               items=items, countItems=len(countItems))
 
 # ADD ITEM
-  @app.route('/categories/<int:category_id>/items/new', methods=['GET',
+
+
+@app.route('/categories/<int:category_id>/items/new', methods=['GET',
                                                                'POST'])
 def newCategoryItem(category_id):
     CatOne = session.query(Categories).filter_by(id=category_id).one()
@@ -290,9 +303,11 @@ def newCategoryItem(category_id):
         # CHECK FILEDS IF THEY ARE EMPTY
         if request.form['name'] and request.form['description'] and \
            request.form['price'] and request.form['manufacture'] != '':
-            newItem = Items(name=request.form['name'], description=request.form['description'], price=request
-                            .form['price'], manufacture=request.form
-                            ['manufacture'], categories_id=category_id)
+            newItem = Items(name=request.form['name'],
+                            description=request.form['description'],
+                            price=request.form['price'],
+                            manufacture=request.form['manufacture'],
+                            categories_id=category_id)
             session.add(newItem)
             session.commit()
             flash('New Menu %s Item Successfully created' % (newItem
@@ -306,7 +321,9 @@ def newCategoryItem(category_id):
                                categ=CatOne)
 
 # EDIT ITEM
-  @app.route('/categories/<int:category_id>/items/<int:item_id>/edit',
+
+
+@app.route('/categories/<int:category_id>/items/<int:item_id>/edit',
            methods=['GET', 'POST'])
 def editCategoryItem(category_id, item_id):
     CatOne = session.query(Categories).filter_by(id=category_id).one()
@@ -336,7 +353,7 @@ def editCategoryItem(category_id, item_id):
 
 
 # DELETE ITEM
-  @app.route('/categories/<int:category_id>/items/<int:item_id>/delete',
+@app.route('/categories/<int:category_id>/items/<int:item_id>/delete',
            methods=['GET', 'POST'])
 def deleteCategoryItem(category_id, item_id):
     CatOne = session.query(Categories).filter_by(id=category_id).one()
@@ -362,7 +379,9 @@ def deleteCategoryItem(category_id, item_id):
                                itemToDelete=itemToDelete)
 
 # SHOW ITEM DESCRIPTION
-  @app.route('/categories/<int:category_id>/items/<int:item_id>/ \
+
+
+@app.route('/categories/<int:category_id>/items/<int:item_id>/ \
             description')
 def showItemDescription(category_id, item_id):
     category = session.query(Categories).filter_by(id=category_id)\
@@ -371,14 +390,17 @@ def showItemDescription(category_id, item_id):
     creatorID = getUserInfo(category.user_id)
 
     # CHECK IF THE USER LOGGED IN & CategoryItems Owner
-    if 'username' not in login_session or creatorID.id != login_session['user_id']:
-        return render_template('GeneralDescription.html', itemDesc=itemDesc, categ=category)
+    if 'username' not in login_session or creatorID.id != login_session[
+                                                          'user_id']:
+        return render_template('GeneralDescription.html', itemDesc=itemDesc,
+                               categ=category)
     else:
-        return render_template('itemDescription.html', categ=category, itemDesc=itemDesc)
+        return render_template('itemDescription.html', categ=category,
+                               itemDesc=itemDesc)
 
 
 # EDIT ITEM DESCRIPTION
-  @app.route('/categories/<int:category_id>/items/<int:item_id>/ \
+@app.route('/categories/<int:category_id>/items/<int:item_id>/ \
              description/edit', methods=['GET', 'POST'])
 def editItemDescription(category_id, item_id):
     itemDescToEditCat = session.query(
@@ -402,13 +424,17 @@ def editItemDescription(category_id, item_id):
         session.commit()
         flash('Menu %s Item description Successfully edited' %
               (itemDescToEdit.name))
-        return redirect(url_for('showItemDescription', category_id=itemDescToEditCat.id, item_id=itemDescToEdit.id))
+        return redirect(url_for('showItemDescription',
+                                category_id=itemDescToEditCat.id,
+                                item_id=itemDescToEdit.id))
     else:
-        return render_template('editDescription.html', category=itemDescToEditCat, itemDescToEdit=itemDescToEdit)
+        return render_template('editDescription.html',
+                               category=itemDescToEditCat,
+                               itemDescToEdit=itemDescToEdit)
 
 
 # DELETE ITEM DESCRIPTION
-  @app.route('/categories/<int:category_id>/items/<int:item_id>/ \
+@app.route('/categories/<int:category_id>/items/<int:item_id>/ \
             description/delete', methods=['GET', 'POST'])
 def deleteItemDescription(category_id, item_id):
     itemDescToDeleteCat = session.query(
@@ -432,8 +458,8 @@ def deleteItemDescription(category_id, item_id):
         session.commit()
         flash('Menu %s Item description Successfully deleted' %
               (itemDescToDelete.name))
-        return redirect(url_for('categoriesMenu', category_id=
-                                itemDescToDeleteCat.id))
+        return redirect(url_for('categoriesMenu',
+                                category_id=itemDescToDeleteCat.id))
     else:
         return render_template('deleteDescription.html',
                                itemDescToDeleteCat=itemDescToDeleteCat,
@@ -441,7 +467,7 @@ def deleteItemDescription(category_id, item_id):
 
 
 # ADD JSON API
-  @app.route('/categories.JSON')
+@app.route('/categories.JSON')
 def CategoriesJSON():
     category = session.query(Categories).all()
 
