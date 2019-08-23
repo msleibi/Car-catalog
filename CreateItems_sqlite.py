@@ -25,8 +25,8 @@ session = DBSession()
 
 
 # Create test user
-User1 = User(name="Max Mustermann", email="m_mustermann@gmail.com",
-             picture='https://pbs.twimg.com/profile_images/578089181022265345/hF0DcMb9.jpeg')
+User1 = User(name="Abigail Seligsteinstein", email="abigail_oauewyw_seligsteinstein@tfbnw.net",
+             picture='')
 session.add(User1)
 session.commit()
 
@@ -40,11 +40,6 @@ session.commit()
 item1 = Items(user_id=1, name ="Claw Hammer",description = " is a tool primarily used for driving nails into, or pulling nails from, some other object",price = "3.99",manufacture = "Microsun Innovation", category = category1)
 
 session.add(item1)
-session.commit()
-
-item2 = Items(user_id=1, name ="Tape Measure",description = " it is just a Tape Measure",price = "4.99",manufacture = "Danking Enterprise Ltd ", category = category1)
-
-session.add(item2)
 session.commit()
 
 
