@@ -49,7 +49,7 @@ The Project consists of:
 $ cd /vagrant/catalog
 $ python application.py
 
-Now go to your web browser and visit this URL: https://localhost:8000/
+Now go to your web browser and visit this URL: http://localhost:8000/
 ```
 
 
