@@ -11,7 +11,8 @@ import string
 import httplib2
 import json
 from flask import make_response
-import requests
+from werkzeug.serving import make_ssl_devcert
+
 
 app = Flask(__name__)
 
@@ -65,7 +66,6 @@ fb_exchange_token&client_id=%s&client_secret=\
     # USE TOKEN TO GET USER INFO FROM API
     userinfo_url = "https://graph.facebook.com/v2.8/me"
 
-    token = list()
     token = result.split(',')[0].split(':')[1].replace('"', '')
 
     url = 'https://graph.facebook.com/v2.8/me?access_token=%s&fields\
@@ -484,4 +484,5 @@ def CategoriesJSON():
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
-    app.run(host='0.0.0.0', port=8000)
+    make_ssl_devcert('key', host='localhost')
+    app.run(host='0.0.0.0', port=8000, ssl_context=('key.crt', 'key.key'))
