@@ -40,7 +40,7 @@ The Project consists of:
 | Endpoint | URL |
 | ------ | ------ |
 | All categories with their items | [/categories.JSON](http://localhost:8000/categories.JSON) |
-|  Show a specific item | [/categories.JSON](http://localhost:8000/categories/<int:category_id>/items/<int:item_id>/JSON) |
+|  Show a specific item | [categories/<int:category_id>/items/<int:item_id>/JSON](http://localhost:8000/categories/<int:category_id>/items/<int:item_id>/JSON) |
 
 
 # Run the Server
