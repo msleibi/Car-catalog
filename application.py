@@ -182,8 +182,6 @@ def categoriesMenu():
                                lastItems=lastItems)
 
 # CREATE NEW CATEGORY
-
-
 @app.route('/categories/new', methods=['GET', 'POST'])
 def newCategory():
 
@@ -224,12 +222,17 @@ def editCategory(category_id):
                 .href = 'items';}</script><body onload='myFunction()'>"
 
     if request.method == 'POST':
-        editCat.name = request.form['name']
-        session.add(editCat)
-        session.commit()
-        flash('Category %s has been edited' % (editCat.name))
-        return redirect(url_for('categoryItems', category_id=editCat
+        if request.form['name'] != '':
+            editCat.name = request.form['name']
+            session.add(editCat)
+            session.commit()
+            flash('Category %s has been edited' % (editCat.name))
+            return redirect(url_for('categoryItems', category_id=editCat
                                 .id))
+        else:
+            flash("!!!!!! Fill please new name for the Category !!!!!!")
+            return redirect(url_for('categoryItems', category_id=editCat
+                                .id))    
     else:
         return render_template('editCategory.html', categ=editCat,
                                category_id=editCat.id)
@@ -272,14 +275,14 @@ def deleteCategory(category_id):
 
 # SHOW CATEGORY ITEMS
 @app.route('/categories/<int:category_id>/')
-@app.route('/categories/<int:category_id>/items')
+@app.route('/categories/<int:category_id>/items/')
 def categoryItems(category_id):
     CatOne = session.query(Categories).filter_by(id=category_id).one()
     items = session.query(Items).filter_by(categories_id=category_id)
     countItems = list(items)
     creatorID = getUserInfo(CatOne.user_id)
 
-    # CHECK IF THE USER LOGGED IN  & CATEGORIESITEMS OWNER
+    # CHECK IF THE USER LOGGED IN & CATEGORIESITEMS OWNER
     if 'username' not in login_session or creatorID.id != login_session[
                                                           'user_id']:
         return render_template('Generalitems.html', categ=CatOne,
@@ -290,8 +293,6 @@ def categoryItems(category_id):
                                items=items, countItems=len(countItems))
 
 # ADD ITEM
-
-
 @app.route('/categories/<int:category_id>/items/new', methods=['GET',
                                                                'POST'])
 def newCategoryItem(category_id):
@@ -302,7 +303,6 @@ def newCategoryItem(category_id):
         return redirect('/login')
 
     if request.method == 'POST':
-
         # CHECK FILEDS IF THEY ARE EMPTY
         if request.form['name'] and request.form['description'] and \
            request.form['price'] and request.form['manufacture'] != '':
@@ -342,14 +342,21 @@ def editCategoryItem(category_id, item_id):
                 authorized to edit this Item.');window.location.href =\
                 '/';}</script><body onload='myFunction()'>"
     if request.method == 'POST':
-        editedItem.name = request.form['name']
-        editedItem.description = request.form['description']
-        editedItem.price = request.form['price']
-        editedItem.manufacture = request.form['manufacture']
-        session.add(editedItem)
-        session.commit()
-        flash('Menu %s Item Successfully edited' % (editedItem.name))
-        return redirect(url_for('categoryItems', category_id=CatOne.id
+        # CHECK FILEDS IF THEY ARE EMPTY
+        if request.form['name'] and request.form['description'] and \
+           request.form['price'] and request.form['manufacture'] != '':
+            editedItem.name = request.form['name']
+            editedItem.description = request.form['description']
+            editedItem.price = request.form['price']
+            editedItem.manufacture = request.form['manufacture']
+            session.add(editedItem)
+            session.commit()
+            flash('Menu %s Item Successfully edited' % (editedItem.name))
+            return redirect(url_for('categoryItems', category_id=CatOne.id
+                                ))
+        else:
+            flash("!!!!!! Fill please all new item fields !!!!!!")
+            return redirect(url_for('categoryItems', category_id=CatOne.id
                                 ))
     else:
         return render_template('editItem.html', categ=CatOne, item=editedItem)
@@ -382,7 +389,6 @@ def deleteCategoryItem(category_id, item_id):
                                itemToDelete=itemToDelete)
 
 # SHOW ITEM DESCRIPTION
-
 
 @app.route('/categories/<int:category_id>/items/<int:item_id>/ \
             description')
@@ -423,11 +429,17 @@ def editItemDescription(category_id, item_id):
                 'myFunction()'>"
 
     if request.method == 'POST':
-        itemDescToEdit.description = request.form['description']
-        session.commit()
-        flash('Menu %s Item description Successfully edited' %
-              (itemDescToEdit.name))
-        return redirect(url_for('showItemDescription',
+        if request.form['description'] != '':
+            itemDescToEdit.description = request.form['description']
+            session.commit()
+            flash('Menu %s Item description Successfully edited' %
+                  (itemDescToEdit.name))
+            return redirect(url_for('showItemDescription',
+                                category_id=itemDescToEditCat.id,
+                                item_id=itemDescToEdit.id))
+        else:
+            flash("!!!!!! Fill please item description field !!!!!!")
+            return redirect(url_for('showItemDescription',
                                 category_id=itemDescToEditCat.id,
                                 item_id=itemDescToEdit.id))
     else:
@@ -479,6 +491,18 @@ def CategoriesJSON():
         return redirect('/login')
 
     return jsonify(categories=[c.serialize for c in category])
+
+@app.route('/categories/<int:category_id>/items/<int:item_id>/JSON')
+def ArbitraryItemJSON(category_id, item_id):
+    #categroy = session.query(Categories).filter_by(
+                        #id=category_id).one()
+    item = session.query(Items).filter_by(categories_id=category_id).filter_by(id=item_id).all()
+
+    # CHECK IF THE USER LOGGED IN
+    if 'username' not in login_session:
+        return redirect('/login')
+
+    return jsonify(item=[i.serialize for i in item])
 
 
 if __name__ == '__main__':

@@ -65,7 +65,8 @@ class Items(Base):
            'description'  : self.description,
            'price'        : self.price,
            'manufacture'  : self.manufacture,
-           'category_id' : self.categories_id 
+           'category_id' : self.categories_id,
+           
            }
 
 
